@@ -1,0 +1,7 @@
+services:
+  frontend:
+    build:
+      context: ./
+    container_name: TravelX-frontend
+    ports:
+      - '8080:80'
