@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/bundles.css" />
+    <script src="../config.js"></script>
+    <title>Travel Bundle</title>
+  </head>
+  <body>
+    <header>
+      <div>
+        <a href="index.html" class="title">TRAVEL-X</a>
+      </div>
+      <nav>
+        <a href="planets.html" class="nav-link">Planets</a>
+        <a href="agencies.html" class="nav-link">Agencies</a>
+        <a href="bundles.html" class="nav-link">Bundles</a>
+      </nav>
+    </header>
+
+    <h1 class="page-title"></h1>
+
+    <div class="buttons bundle-buttons">
+      <a id="update-link" href="">
+        <button class="button is-link is-medium">Update</button>
+      </a>
+      <button id="delete-btn" class="button is-danger is-medium">Delete</button>
+    </div>
+
+    <section id="bundle-info">
+      <div>
+        <img id="bundle-img" src="" alt="" />
+      </div>
+      <div id="info-div">
+        <h2 id="info-title">INFORMATION:</h2>
+        <p class="info">
+          <b class="info-bold">Price: </b><span class="info-data"></span>
+        </p>
+        <p class="info">
+          <b class="info-bold">Duration: </b> <span class="info-data"></span>
+        </p>
+        <p class="info">
+          <b class="info-bold">Activites: </b> <span class="info-data"></span>
+        </p>
+        <p class="info">
+          <b class="info-bold">Flight Class: </b>
+          <span class="info-data"></span>
+        </p>
+        <p class="info">
+          <b class="info-bold">Is all inclusive?: </b>
+          <span class="info-data"></span>
+        </p>
+        <p class="info">
+          <b class="info-bold">Season: </b>
+          <span class="info-data"></span>
+        </p>
+      </div>
+    </section>
+
+    <h1 class="page-title">More information:</h1>
+    <section class="cards-container"></section>
+
+    <script>
+      const getBundleId = () => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id');
+      };
+
+      const bundleId = getBundleId();
+
+      /* PLANET AND AGENCY CARDS */
+      const cardCreate = (item, type, id) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const imageUrl = type === 'planet' ? item.image_url : item.logo_url;
+
+        const itemLink =
+          type === 'planet'
+            ? `./planet.html?id=${id}`
+            : `./agency.html?id=${id}`;
+        const altText = type === 'planet' ? 'Planet image' : 'Agency logo';
+
+        card.innerHTML = `
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <img src="${imageUrl}" alt="${altText}" onerror="this.onerror=null; this.src='${config.notFoundImg}'"/>
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="has-text-centered">
+            <a href="${itemLink}" class="title is-4 card-link">${item.name}</a>
+          </div>
+        </div>
+      `;
+        return card;
+      };
+
+      /* LOAD */
+      const loadBundleData = async (bundleId) => {
+        try {
+          const response = await fetch(
+            `${config.baseApiUrl}/bundles/${bundleId}`
+          );
+          if (!response.ok) {
+            alert('Error loading bundle data. Redirecting to bundles...');
+            window.location.href = './bundles.html';
+            return;
+          }
+
+          const data = await response.json();
+
+          const title = document.querySelector('.page-title');
+          title.textContent = `Bundle to ${data.planet.name}`;
+
+          const image = document.getElementById('bundle-img');
+          image.src = data.images_urls[0];
+          image.onerror = () => {
+            image.src = config.notFoundImg;
+            image.alt = 'Img not found';
+          };
+
+          const infoData = document.getElementsByClassName('info-data');
+          infoData[0].textContent = data.price;
+          infoData[1].textContent = data.duration;
+          infoData[2].textContent = data.activities;
+          infoData[3].textContent = data.flight_class;
+          infoData[4].textContent = data.all_inclusive ? 'YES' : 'NO';
+          infoData[5].textContent = data.season;
+
+          const cardsContainer = document.querySelector('.cards-container');
+
+          const appendError = (message) => {
+            const notFound = document.createElement('p');
+            notFound.textContent = message;
+            notFound.style.color = 'black';
+            cardsContainer.appendChild(notFound);
+          };
+
+          if (data.planet) {
+            const planetCard = cardCreate(
+              data.planet,
+              'planet',
+              data.planet_id
+            );
+            cardsContainer.appendChild(planetCard);
+          } else {
+            appendError('Error loading planet.');
+          }
+
+          if (data.travel_agency) {
+            const agencyCard = cardCreate(
+              data.travel_agency,
+              'agency',
+              data.agency_id
+            );
+            cardsContainer.appendChild(agencyCard);
+          } else {
+            appendError('Error loading agency.');
+          }
+        } catch (error) {
+          alert('An unexpected error occurred. Please try again later.');
+          console.error(error);
+        }
+      };
+
+      loadBundleData(bundleId);
+
+      /* REDIRECT TO UPDATE */
+      const updateBtn = document.getElementById('update-link');
+      updateBtn.href = `./bundle-update.html?id=${bundleId}`;
+
+      /* DELETE */
+      const deleteBtn = document.getElementById('delete-btn');
+      deleteBtn.onclick = () => {
+        if (confirm('Are you sure you want to delete this bundle?')) {
+          const response = fetch(`${config.baseApiUrl}/bundles/${bundleId}`, {
+            method: 'DELETE',
+          }).then((response) => {
+            if (response.ok) {
+              window.location.href = './bundles.html';
+              alert('Bundle deleted');
+            } else {
+              alert("Couldn't delete the bundle");
+            }
+          });
+        }
+      };
+    </script>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p class="footer-copyright">© 2067 Travel-X. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

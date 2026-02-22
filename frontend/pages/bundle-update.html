@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/bundles.css" />
+    <script src="../config.js"></script>
+    <title>Update Travel Bundle</title>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header>
+      <div>
+        <h1 class="title">TRAVEL-X</h1>
+      </div>
+      <nav>
+        <a href="planets.html" class="nav-link">Planets</a>
+        <a href="agencies.html" class="nav-link">Agencies</a>
+        <a href="bundles.html" class="nav-link">Bundles</a>
+      </nav>
+    </header>
+
+    <h1 class="page-title">TRAVEL BUNDLES</h1>
+
+    <!-- BUNDLE FORM -->
+
+    <form id="bundle-form">
+      <label for="price">Price (USD)*</label>
+      <input
+        id="price"
+        class="input"
+        type="number"
+        placeholder="Ex. 100"
+        required="true"
+        min="0"
+      />
+
+      <label for="duration">Duration*</label>
+      <input
+        id="duration"
+        class="input"
+        type="text"
+        placeholder="Ex. 800000000"
+        required="true"
+      />
+
+      <label for="activities">Activities*</label>
+      <textarea
+        id="activities"
+        placeholder="Ex. Sightseeing, Space walks, Stargazing..."
+        required="true"
+      ></textarea>
+
+      <label class="radio-label">Flight Class*</label>
+      <div class="radios">
+        <label class="radio">
+          <input type="radio" name="flight_class" value="ECONOMIC" checked />
+          ECONOMIC
+        </label>
+        <label class="radio">
+          <input type="radio" name="flight_class" value="FIRST" />
+          FIRST
+        </label>
+        <label class="radio">
+          <input type="radio" name="flight_class" value="EXECUTIVE" />
+          EXECUTIVE
+        </label>
+        <label class="radio">
+          <input type="radio" name="flight_class" value="GALACTIC_EMPEROR" />
+          GALACTIC EMPEROR
+        </label>
+        <label class="radio">
+          <input type="radio" name="flight_class" value="COSMIC_BARREL" />
+          COSMIC BARREL
+        </label>
+      </div>
+
+      <label class="radio-label">Is all inclusive?*</label>
+      <div class="control">
+        <label class="radio">
+          <input type="radio" name="inclusive" value="YES" checked />
+          YES
+        </label>
+        <label class="radio">
+          <input type="radio" name="inclusive" value="NO" />
+          NO
+        </label>
+      </div>
+
+      <label class="radio-label">Season*</label>
+      <div class="radios">
+        <label class="radio">
+          <input type="radio" name="season" value="SUMMER" checked />
+          SUMMER
+        </label>
+        <label class="radio">
+          <input type="radio" name="season" value="SWINTER" />
+          SWINTER
+        </label>
+        <label class="radio">
+          <input type="radio" name="season" value="WINTER" />
+          WINTER
+        </label>
+        <label class="radio">
+          <input type="radio" name="season" value="WAUTUMN" />
+          WAUTUMN
+        </label>
+        <label class="radio">
+          <input type="radio" name="season" value="AUTUMN" />
+          AUTUMN
+        </label>
+        <label class="radio">
+          <input type="radio" name="season" value="ASPRING" />
+          ASPRING
+        </label>
+        <label class="radio">
+          <input type="radio" name="season" value="SPRING" />
+          SPRING
+        </label>
+        <label class="radio">
+          <input type="radio" name="season" value="SPRUMMER" />
+          SPRUMMER
+        </label>
+        <label class="radio">
+          <input type="radio" name="season" value="VOID" />
+          VOID
+        </label>
+      </div>
+
+      <div class="selectors">
+        <div>
+          <label for="agencies">Agency:</label>
+          <select id="agencies">
+            <script>
+              const loadAgencies = () => {
+                const selectAgencies = document.getElementById('agencies');
+
+                fetch(`${config.baseApiUrl}/agencies`)
+                  .then((response) => response.json())
+                  .then((data) => {
+                    data.forEach((agency) => {
+                      const option = document.createElement('option');
+                      option.value = agency.id;
+                      option.textContent = agency.name;
+                      selectAgencies.appendChild(option);
+                    });
+                  });
+              };
+
+              loadAgencies();
+            </script>
+          </select>
+        </div>
+        <div>
+          <label for="planets">Planet:</label>
+          <select id="planets">
+            <script>
+              const loadPlanets = () => {
+                const selectPlanets = document.getElementById('planets');
+
+                fetch(`${config.baseApiUrl}/planets`)
+                  .then((response) => response.json())
+                  .then((data) => {
+                    data.forEach((planet) => {
+                      const option = document.createElement('option');
+                      option.value = planet.id;
+                      option.textContent = planet.name;
+                      selectPlanets.appendChild(option);
+                    });
+                  });
+              };
+
+              loadPlanets();
+            </script>
+          </select>
+        </div>
+      </div>
+
+      <label for="url">Images URL(s)</label>
+      <div id="url-container">
+        <div class="url-input">
+          <input
+            id="url-1"
+            class="input is-link url-field"
+            type="url"
+            placeholder="Ex. http://example-image1.com/..."
+          />
+        </div>
+        <div class="url-input">
+          <input
+            id="url-2"
+            class="input is-link url-field"
+            type="url"
+            placeholder="Ex. http://example-image2.com/..."
+          />
+        </div>
+        <div class="url-input">
+          <input
+            id="url-3"
+            class="input is-link url-field"
+            type="url"
+            placeholder="Ex. http://example-image3.com/..."
+          />
+        </div>
+      </div>
+
+      <div class="buttons form-buttons">
+        <button class="button is-link is-medium" type="submit">Submit</button>
+        <a id="back-btn" href="">
+          <button class="button is-warning is-medium" type="button">
+            Go Back
+          </button>
+        </a>
+      </div>
+    </form>
+
+    <script>
+      /* LOAD */
+      const getBundleId = () => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id');
+      };
+
+      const loadBundleData = (bundleId) => {
+        const response = fetch(`${config.baseApiUrl}/bundles/${bundleId}`)
+          .then((response) => {
+            if (!response.ok) {
+              alert('Error loading bundle data. Redirecting to bundles...');
+              window.location.href = './bundles.html';
+            }
+            return response.json();
+          })
+          .then((data) => {
+            document.getElementById('price').value = data.price;
+            document.getElementById('duration').value = data.duration;
+            document.getElementById('activities').value = data.activities;
+            document.querySelector(
+              `input[name="flight_class"][value="${data.flight_class}"]`
+            ).checked = true;
+            document.querySelector(
+              `input[name="inclusive"][value="${
+                data.all_inclusive == true ? 'YES' : 'NO'
+              }"]`
+            ).checked = true;
+            document.querySelector(
+              `input[name="season"][value="${data.season}"]`
+            ).checked = true;
+
+            const urlInputs = document.querySelectorAll('.url-field');
+            data.images_urls.forEach((url, index) => {
+              if (urlInputs[index]) {
+                urlInputs[index].value = url;
+              }
+            });
+
+            const urls = [];
+            let hasValidUrl = false;
+
+            for (let i = 1; i <= 3; i++) {
+              const urlField = document.getElementById(`url-${i}`);
+              if (urlField && urlField.value) {
+                urls.push(urlField.value);
+                hasValidUrl = true;
+              }
+            }
+
+            const planetSelect = document.getElementById('planets');
+            Array.from(planetSelect.options).forEach((option) => {
+              if (option.value == data.planet_id) {
+                option.selected = true;
+              }
+            });
+
+            const agencySelect = document.getElementById('agencies');
+            Array.from(agencySelect.options).forEach((option) => {
+              if (option.value == data.agency_id) {
+                option.selected = true;
+              }
+            });
+          });
+      };
+
+      const bundleId = getBundleId();
+      loadBundleData(bundleId);
+
+      const bundleForm = document.getElementById('bundle-form');
+
+      bundleForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const urls = [];
+        let hasValidUrl = false;
+
+        for (let i = 1; i <= 3; i++) {
+          const urlField = document.getElementById(`url-${i}`);
+          if (urlField && urlField.value) {
+            urls.push(urlField.value);
+            hasValidUrl = true;
+          }
+        }
+
+        const selectedPlanet = document.getElementById('planets');
+        const selectedAgency = document.getElementById('agencies');
+
+        const bundleData = {
+          price: Number(document.getElementById('price').value),
+          duration: document.getElementById('duration').value,
+          activities: document.getElementById('activities').value,
+          flight_class: document.querySelector(
+            'input[name="flight_class"]:checked'
+          ).value,
+          all_inclusive:
+            document.querySelector('input[name="inclusive"]:checked').value ==
+            'YES',
+          season: document.querySelector('input[name="season"]:checked').value,
+          images_urls: urls,
+          planet_id: Number(selectedPlanet.value),
+          agency_id: Number(selectedAgency.value),
+        };
+        console.log(bundleData);
+
+        /* UPDATE */
+        fetch(`${config.baseApiUrl}/bundles/${bundleId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(bundleData),
+        }).then((response) => {
+          if (response.ok) {
+            window.location.href = `./bundle.html?id=${bundleId}`;
+            alert(`Bundle successfully updated!`);
+          } else {
+            alert('Failed to update bundle');
+          }
+        });
+      });
+
+      const backBtn = document.getElementById('back-btn');
+      backBtn.href = `./bundle.html?id=${bundleId}`;
+    </script>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p class="footer-copyright">© 2067 Travel-X. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

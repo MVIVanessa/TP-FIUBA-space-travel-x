@@ -1,0 +1,180 @@
+@import 'https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Header, footer, body style */
+
+* {
+  box-sizing: content-box;
+  padding: 0;
+  margin: 0;
+}
+
+body,
+html {
+  background-color: white;
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+  max-height: fit-content;
+  position: relative;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #1e3a5f;
+  height: 7rem;
+}
+
+.title {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bolder;
+  user-select: none;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.nav-link {
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+}
+
+.nav-link:hover {
+  color: rgb(178, 186, 253);
+}
+
+.footer {
+  background-color: #1e3a5f;
+  height: 3rem;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-copyright {
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  text-align: center;
+  font-size: medium;
+}
+
+@media (max-width: 720px) {
+  header {
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #1e3a5f;
+    height: 7rem;
+  }
+}
+
+/* --------------------------------- */
+
+.page-title {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  font-weight: bolder;
+  font-size: xx-large;
+}
+
+.home-about {
+  align-self: center;
+  max-width: 40%;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  font-size: large;
+}
+
+.home-links {
+  min-width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.planets-sect,
+.agencies-sect,
+.bundles-sect {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  height: 20rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.planets-sect div,
+.agencies-sect div,
+.bundles-sect div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background-color: rgb(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+}
+
+.planets-sect {
+  background-image: url('https://wallpapersmug.com/download/2560x1080/8d554d/celestial-world-digital-art-space-colorful.jpg');
+}
+
+.agencies-sect {
+  background-image: url('https://miro.medium.com/v2/resize:fit:1400/1*5dB4zvOWxZtzCVYQjnBxEw@2x.jpeg');
+}
+
+.bundles-sect {
+  background-image: url('https://www.defensenews.com/resizer/v2/BC765PJN3RFMFJRCUVJEUQRO2A.jfif?auth=ccbd00938a8aa0497e2149341f9077a08492239e5a9c1ed83f9675a7c5f60ae0&width=6500&height=3500');
+}
+
+.home-link {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bolder;
+  font-size: xx-large;
+  color: white;
+}
+
+.home-link:hover {
+  color: rgb(178, 186, 253);
+}
+
+.home-link-about {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: large;
+  color: white;
+}
+@media (max-width: 1024px) {
+  .home-about {
+    max-width: 80%;
+    font-size: medium;
+  }
+}

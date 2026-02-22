@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Danger {
+  NONE
+  LOW
+  MODERATE
+  HIGH
+  EXTREME
+  X_X
+}
+
+enum Currency {
+  DOLLAR
+  EURO
+  PESINHO
+  QUARK_BITS
+  GRAV_COINS
+  TIME_CHIPS
+  VOID_MARKS
+  SOUL_CREDITS
+  DON_SATURN
+}
+
+enum FlightClass {
+  ECONOMIC
+  FIRST
+  EXECUTIVE
+  GALACTIC_EMPEROR
+  COSMIC_BARREL
+}
+
+enum Season {
+  SUMMER
+  SWINTER
+  WINTER
+  WAUTUMN
+  AUTUMN
+  ASPRING
+  SPRING
+  SPRUMMER
+  VOID
+}
+
+model planet {
+  id             BigInt          @id @default(autoincrement()) @map("planet")
+  name           String          @unique
+  earth_distance BigInt
+  weather        String
+  gravity        Decimal
+  danger_level   Danger
+  inhabited      Boolean
+  image_url      String?
+  travelBundles  travel_bundle[] @relation("planet_travel_bundles")
+}
+
+model travel_agency {
+  id                BigInt          @id @default(autoincrement()) @map("travel_agency")
+  name              String          @unique
+  about_us          String
+  accepted_currency Currency[]      @default([])
+  telephone         String
+  website           String
+  rating            Decimal
+  logo_url          String?
+  travelBundles     travel_bundle[] @relation("travel_agency_bundles")
+}
+
+model travel_bundle {
+  id            BigInt        @id @default(autoincrement()) @map("travel_bundle")
+  price         Decimal
+  duration      String
+  activities    String
+  flight_class  FlightClass
+  all_inclusive Boolean
+  season        Season
+  images_urls   String[]
+  agency_id     BigInt
+  planet_id     BigInt
+  travel_agency travel_agency @relation("travel_agency_bundles", fields: [agency_id], references: [id], onDelete: Cascade)
+  planet        planet        @relation("planet_travel_bundles", fields: [planet_id], references: [id], onDelete: Cascade)
+}

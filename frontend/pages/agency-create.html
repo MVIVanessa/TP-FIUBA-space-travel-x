@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/agencies.css" />
+    <script src="../config.js"></script>
+
+    <title>Agencies</title>
+  </head>
+  <body>
+    <header>
+      <div>
+        <a href="/" class="title">TRAVEL-X</a>
+      </div>
+      <nav>
+        <a href="planets.html" class="nav-link">Planets</a>
+        <a href="agencies.html" class="nav-link">Agencies</a>
+        <a href="bundles.html" class="nav-link">Bundles</a>
+      </nav>
+    </header>
+
+    <h1 class="page-title">CREATE AGENCY</h1>
+
+    <form id="agency-form">
+      <label for="name">Name*</label>
+      <input
+        id="name"
+        class="input"
+        type="text"
+        placeholder="Ex. Rocket Travel"
+        required="true"
+      />
+
+      <label for="about-us">About us*</label>
+      <textarea
+        id="about-us"
+        placeholder="Ex. We offer more than 35 amazing bundles"
+        required="true"
+      ></textarea>
+
+      <label for="accepted-currency">Accepted currency*</label>
+      <div class="radios">
+        <label class="radio">
+          <input type="checkbox" name="currency" value="DOLLAR" checked />
+          DOLLAR
+        </label>
+        <label class="radio">
+          <input type="checkbox" name="currency" value="EURO" />
+          EURO
+        </label>
+        <label class="radio">
+          <input type="checkbox" name="currency" value="PESINHO" />
+          PESINHO
+        </label>
+        <label class="radio">
+          <input type="checkbox" name="currency" value="QUARK_BITS" />
+          QUARK BITS
+        </label>
+        <label class="radio">
+          <input type="checkbox" name="currency" value="GRAV_COINS" />
+          GRAV COINS
+        </label>
+        <label class="radio">
+          <input type="checkbox" name="currency" value="TIME_CHIPS" />
+          TIME CHIPS
+        </label>
+        <label class="radio">
+          <input type="checkbox" name="currency" value="VOID_MARKS" />
+          VOID MARKS
+        </label>
+        <label class="radio">
+          <input type="checkbox" name="currency" value="SOUL_CREDITS" />
+          SOUL CREDITS
+        </label>
+        <label class="radio">
+          <input type="checkbox" name="currency" value="DON_SATURN" />
+          DON SATURN
+        </label>
+      </div>
+
+      <label for="telephone">Telephone*</label>
+      <input
+        id="telephone"
+        class="input"
+        type="text"
+        placeholder="Ex. 555-5555-5555"
+        required="true"
+      />
+
+      <label for="website">Website*</label>
+      <input
+        id="website"
+        class="input"
+        type="text"
+        placeholder="Ex. rocketpage@email.com"
+        required="true"
+      />
+
+      <label for="rating">Rating*</label>
+      <input
+        id="rating"
+        class="input"
+        type="number"
+        placeholder="Ex. 5.0"
+        step="0.01"
+        required="true"
+        min="0"
+        max="5"
+      />
+
+      <label for="url">Image URL</label>
+      <input
+        id="url"
+        class="input is-link"
+        type="text"
+        placeholder="Ex. http://example-image.com/..."
+      />
+
+      <div class="buttons form-buttons">
+        <button class="button is-link is-medium" type="submit">Submit</button>
+        <a href="agencies.html">
+          <button class="button is-warning is-medium" type="button">
+            Go Back
+          </button>
+        </a>
+      </div>
+    </form>
+
+    <script>
+      const agencyForm = document.getElementById('agency-form');
+
+      agencyForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const agencyData = {
+          name: document.getElementById('name').value,
+          about_us: document.getElementById('about-us').value,
+          accepted_currency: setCheckedValues(),
+          telephone: document.getElementById('telephone').value,
+          website: document.getElementById('website').value,
+          rating: Number(document.getElementById('rating').value),
+          logo_url: document.getElementById('url')?.value,
+        };
+
+        fetch(`${config.baseApiUrl}/agencies`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(agencyData),
+        }).then((response) => {
+          if (response.ok) {
+            alert(`${agencyData.name} successfully created!`);
+          } else {
+            alert('Failed to add agency');
+          }
+        });
+      });
+
+      function setCheckedValues() {
+        let checkboxes = document.getElementsByName('currency');
+        let result = [];
+        for (var i = 0; i < checkboxes.length; i++) {
+          if (checkboxes[i].checked) {
+            result.push(checkboxes[i].value);
+          }
+        }
+
+        return result;
+      }
+    </script>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p class="footer-copyright">© 2067 Travel-X. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

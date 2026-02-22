@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/bundles.css" />
+    <script src="../config.js"></script>
+    <title>Travel Bundles</title>
+  </head>
+  <body>
+    <header>
+      <div>
+        <a href="index.html" class="title">TRAVEL-X</a>
+      </div>
+      <nav>
+        <a href="planets.html" class="nav-link">Planets</a>
+        <a href="agencies.html" class="nav-link">Agencies</a>
+        <a href="bundles.html" class="nav-link">Bundles</a>
+      </nav>
+    </header>
+
+    <h1 class="page-title">TRAVEL BUNDLES</h1>
+
+    <div class="buttons">
+      <a href="./bundle-create.html">
+        <button class="button is-link is-medium">Create</button>
+      </a>
+    </div>
+
+    <section class="cards-container">
+      <script>
+        const cardCreate = (travel_bundle, planets) => {
+          const planet = planets.find((p) => p.id === travel_bundle.planet_id);
+          const planetName = planet ? planet.name : 'Unknown planet';
+
+          const imageUrl = travel_bundle.images_urls && travel_bundle.images_urls.length > 0
+          ? travel_bundle.images_urls[0]
+          : config.notFoundImg;
+
+
+          const card = document.createElement('div');
+          card.classList.add('card');
+
+          card.innerHTML = `
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img src="${imageUrl}" alt="Image of bundle N° ${travel_bundle.id}" onerror="this.onerror=null; this.src='${config.notFoundImg}'"/>
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="has-text-centered">
+                <a href="./bundle.html?id=${travel_bundle.id}" class="title is-4 card-link">Bundle N° ${travel_bundle.id} to ${planetName}</a>
+              </div>
+            </div>
+          `;
+
+          return card;
+        };
+
+        const renderCards = () => {
+          Promise.all([
+            fetch(`${config.baseApiUrl}/bundles`).then((response) => response.json()),
+            fetch(`${config.baseApiUrl}/planets`).then((response) => response.json()),
+          ]).then(([bundles, planets]) => {
+            const cardsContainer = document.getElementsByClassName('cards-container')[0];
+            bundles.forEach((bundle) => {
+              const card = cardCreate(bundle, planets);
+              cardsContainer.appendChild(card);
+            });
+          });
+        };
+    
+        renderCards();
+      </script>
+    </section>
+    
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p class="footer-copyright">© 2067 Travel-X. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

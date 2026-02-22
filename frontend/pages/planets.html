@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/planets.css" />
+    <script src="../config.js"></script>
+    <title>Planets</title>
+  </head>
+  <body>
+    <header>
+      <div>
+        <a href="/" class="title">TRAVEL-X</a>
+      </div>
+      <nav>
+        <a href="planets.html" class="nav-link">Planets</a>
+        <a href="agencies.html" class="nav-link">Agencies</a>
+        <a href="bundles.html" class="nav-link">Bundles</a>
+      </nav>
+    </header>
+
+    <h1 class="page-title">PLANETS</h1>
+
+    <div class="buttons">
+      <a href="./planet-create.html">
+        <button class="button is-link is-medium">Create</button>
+      </a>
+    </div>
+
+    <section class="cards-container">
+      <script>
+        const cardCreate = (planet) => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+
+          card.innerHTML = `
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img src="${planet.image_url}" alt="Image of ${planet.name}" onerror="this.onerror=null; this.src='${config.notFoundImg}'"/>
+              </figure>
+            </div>
+            <div class="card-content">
+                <div class="has-text-centered">
+                  <a href="./planet.html?id=${planet.id}" class="title is-4 card-link">${planet.name}</a>
+                </div>
+            </div>
+          `;
+
+          return card;
+        };
+
+        const renderCards = () => {
+          fetch(`${config.baseApiUrl}/planets`)
+            .then((response) => response.json())
+            .then((data) => {
+              const cardsContainer =
+                document.getElementsByClassName('cards-container')[0];
+              data.forEach((planet) => {
+                const card = cardCreate(planet);
+                cardsContainer.appendChild(card);
+              });
+            });
+        };
+
+        renderCards();
+      </script>
+    </section>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p class="footer-copyright">© 2067 Travel-X. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
